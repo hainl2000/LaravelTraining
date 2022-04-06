@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\AuthRequest;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Response;
 use Symfony\Component\Console\Input\Input;
 
 class AuthController extends Controller
@@ -32,7 +34,8 @@ class AuthController extends Controller
         {
             if(strcmp($isExistedUser->password,$password) == 0)
             {
-                return redirect('welcome');
+                Cookie::queue(Cookie::make('logged-in',true));
+                return redirect()->route('product.show');
             }
             return redirect()->back()->with('status','Wrong username/password')->withInput();
         }
@@ -54,7 +57,7 @@ class AuthController extends Controller
             $newUser->password = $password;
             $newUser->save();
 //            return redirect()->back()->with('status','Register successfully');
-            return redirect('welcome');
+            return redirect('products.show');
         }
 
     }

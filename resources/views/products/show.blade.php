@@ -6,9 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Page Title</title>
-        <link href="{{ asset('css/products/show.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/products/show.css') }}" rel="stylesheet">
 </head>
 
+<script>
+    var msg = '{{Session::get('status')}}';
+    var isExisted = '{{Session::has('status')}}';
+    if (isExisted){
+        alert(msg);
+    }
+</script>
 <body>
 <div class = "show-container-1">
     <div id="add-product-button">
@@ -26,11 +33,17 @@
         @foreach($listProducts as $product)
             <tr>
                 <td class="product-td">{{$product->product_name}}</td>
-                <td class="product-td"><img class="product-image" src="{{$product->product_image}}"></img></td>
+                <td class="product-td"><img class="product-image" src="{{asset($product->product_image)}}"></td>
                 <td class="product-td">{{$product->product_price}}</td>
                 <td class="product-td">{{$product->product_description}}</td>
                 <td class="product-td"><a href="/product/edit/{{$product->product_id}}">Edit</a>
-                <td class="product-td"><a href="">Delete</a>
+                <td class="product-td">
+                    <form class="product-td" action="/product/delete/{{$product->product_id}}" method="post">
+                    @csrf
+                    @method('delete')
+                    <input class="product-td" type="submit" value="Delete"/>
+                    </form>
+                </td>
             </tr>
         @endforeach
     </table>

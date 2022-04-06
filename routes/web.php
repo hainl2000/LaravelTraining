@@ -14,17 +14,20 @@ use App\Http\Controllers\ProductController;
 |
 */
 
-Route::get('/', [ProductController::class,'getAllProducts']);
+Route::get('/', [ProductController::class,'getAllProducts'])->name('product.show');
 
-Route::get('/welcome', function (){
-    return view('welcome');
+Route::get('/login', function (){
+    return view('auth');
 });
-
-Route::get('/product/add',function(){
-    return view('products.add');
-});
-
-Route::get('/product/edit/{productID}',[ProductController::class,'getOneProduct']);
-
 Route::post('/auth', [AuthController::class,'auth'])->name('auth');
+
+Route::middleware('check.login')->prefix('product')->group(function(){
+    Route::get('/add',function(){
+        return view('products.add');
+    });
+    Route::post('/addOneProduct',[ProductController::class,'addOneProduct'])->name('product.addNew');
+    Route::delete('/delete/{productID}',[ProductController::class,'deleteOneProduct']);
+    Route::get('/edit/{productID}',[ProductController::class,'getOneProduct']);
+});
+
 
