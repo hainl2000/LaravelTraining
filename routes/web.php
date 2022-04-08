@@ -14,7 +14,7 @@ use App\Http\Controllers\ProductController;
 |
 */
 
-Route::get('/', [ProductController::class,'getAllProducts'])->name('product.show');
+Route::get('/', [ProductController::class,'paginateProducts'])->name('product.show');
 
 Route::get('/login', function (){
     return view('auth');

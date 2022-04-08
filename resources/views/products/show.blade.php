@@ -26,6 +26,7 @@
             <th class = "product-width">Name</th>
             <th class = "product-width">Image</th>
             <th class = "product-width">Price</th>
+            <th class = "product-width">Quantity</th>
             <th class = "product-width">Description</th>
             <th class = "product-width">Edit</th>
             <th class = "product-width">Delete</th>
@@ -35,6 +36,7 @@
                 <td class="product-td">{{$product->product_name}}</td>
                 <td class="product-td"><img class="product-image" src="{{asset($product->product_image)}}"></td>
                 <td class="product-td">{{$product->product_price}}</td>
+                <td class="product-td">{{$product->product_quantity}}</td>
                 <td class="product-td">{{$product->product_description}}</td>
                 <td class="product-td"><a href="/product/edit/{{$product->product_id}}">Edit</a>
                 <td class="product-td">
@@ -47,6 +49,11 @@
             </tr>
         @endforeach
     </table>
+    @for($i=0;$i<$listProducts->lastPage();$i++)
+        <span>
+            <a href="/?page={{$i+1}}">{{$i+1}}</a>
+        </span>
+    @endfor
 </div>
 
 </body>

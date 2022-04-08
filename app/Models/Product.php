@@ -17,6 +17,7 @@ class Product extends Model
         'product_image',
         'product_price',
         'product_description',
+        'product_quantity'
     ];
 
     public $timestamps = false;

@@ -26,6 +26,8 @@
         <input class="input-add-form" type="file" name="productImage"><br>
         <h1>Price: </h1>
         <input class="input-add-form" type="text" name="productPrice" placeholder="Enter price"><br>
+        <h1>Quantiy: </h1>
+        <input class="input-add-form" type="number" name="productQuantity"><br>
         <h1>Description: </h1>
         <input class="input-add-form" type="text" name="productDescription" placeholder="Enter description"><br>
         <input id="submit-add-product-button" type="submit" name="add-product" value="Add Product">

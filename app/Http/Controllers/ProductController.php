@@ -19,12 +19,14 @@ class ProductController extends Controller
         $productImageName = time() . '.' . $request->file('productImage')->getClientOriginalName();
         $request->file('productImage')->move(public_path('images'), $productImageName);
         $productDescription = $request->input('productDescription');
+        $productQuantity = $request->input('productQuantity');
 
         $newProduct = new Product();
         $newProduct->product_name = $productName;
         $newProduct->product_price = $productPrice;
         $newProduct->product_image = 'images/' . $productImageName;
         $newProduct->product_description = $productDescription;
+        $newProduct->product_quantity = $productQuantity;
 
         $newProduct->save();
 
@@ -49,5 +51,11 @@ class ProductController extends Controller
         File::delete($product->product_image);
         $product->delete();
         return redirect('/')->with('status', 'Delete product successfully');
+    }
+
+    public function paginateProducts()
+    {
+        $listProducts = Product::paginate(4);
+        return view('products.show', ['listProducts' => $listProducts]);
     }
 }
