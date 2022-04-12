@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,20 +15,45 @@ use App\Http\Controllers\ProductController;
 |
 */
 
-Route::get('/', [ProductController::class,'paginateProducts'])->name('product.show');
+Route::get('/', [ProductController::class,'indexWithPaginate'])->name('product.show');
 
 Route::get('/login', function (){
     return view('auth');
 });
 Route::post('/auth', [AuthController::class,'auth'])->name('auth');
 
-Route::middleware('check.login')->prefix('product')->group(function(){
-    Route::get('/add',function(){
-        return view('products.add');
+Route::get('{productID}',[ProductController::class,'show']);
+
+//Route::middleware('check.login')->prefix('product')->group(function(){
+//
+//    Route::get('/create',[ProductController::class,'create']);
+//    Route::post('/addOneProduct',[ProductController::class,'store'])->name('product.addNew');
+//
+//    Route::delete('/delete/{productID}',[ProductController::class,'destroy']);
+//
+//    Route::get('/edit/{productID}',[ProductController::class,'edit']);
+//    Route::put('/edit/{productID}',[ProductController::class,'update'])->name('product.updateOne');
+//});
+
+Route::middleware('check.login')->group(function(){
+    Route::prefix('product')->group(function(){
+        Route::get('/create',[ProductController::class,'create']);
+        Route::post('/addOneProduct',[ProductController::class,'store'])->name('product.addNew');
+
+        Route::delete('/delete/{productID}',[ProductController::class,'destroy']);
+
+        Route::get('/edit/{productID}',[ProductController::class,'edit']);
+        Route::put('/edit/{productID}',[ProductController::class,'update'])->name('product.updateOne');
     });
-    Route::post('/addOneProduct',[ProductController::class,'addOneProduct'])->name('product.addNew');
-    Route::delete('/delete/{productID}',[ProductController::class,'deleteOneProduct']);
-    Route::get('/edit/{productID}',[ProductController::class,'getOneProduct']);
+    Route::prefix('user')->group(function(){
+        Route::post('/buy/{productID}',[UserController::class,'buyOneProduct'])->name('user.buyProduct');
+    });
 });
+
+
+
+
+
+
 
 

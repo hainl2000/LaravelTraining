@@ -27,7 +27,7 @@ class AddFormRequest extends FormRequest
         return [
             //
             'productName' => 'required|regex:/^[a-zA-Z0-9 ]+$/',
-            'productImage' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'productImage' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'productPrice' => 'required|integer',
             'productQuantity' => 'required|numeric|min: 0',
             'productDescription' => 'required|max:255|regex:/^[a-zA-Z0-9 ]+$/'

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -16,8 +17,16 @@ class CheckLogin
      */
     public function handle(Request $request, Closure $next)
     {
-        if($request->cookie('logged-in')){
-            return $next($request);
+        $userID = $request->cookie('id');
+        if($userID){
+            $user = User::where('id','=',$userID)->first();
+            if($user){
+                $request->attributes->add(['id' => $user->id]);
+                return $next($request);
+            }
+            else{
+                return redirect('/login')->with('status','You need login first');
+            }
         }else{
             return redirect('/login')->with('status','You need login first');
         }

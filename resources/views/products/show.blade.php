@@ -19,7 +19,7 @@
 <body>
 <div class = "show-container-1">
     <div id="add-product-button">
-        <a href="/product/add">Add Product</a>
+        <a href="/product/create">Add Product</a>
     </div>
     <table class="show-product-container">
         <tr>
@@ -30,6 +30,7 @@
             <th class = "product-width">Description</th>
             <th class = "product-width">Edit</th>
             <th class = "product-width">Delete</th>
+            <th class="product-width">Detail</th>
         </tr>
         @foreach($listProducts as $product)
             <tr>
@@ -43,9 +44,10 @@
                     <form class="product-td" action="/product/delete/{{$product->product_id}}" method="post">
                     @csrf
                     @method('delete')
-                    <input class="product-td" type="submit" value="Delete"/>
+                        <input class="product-td" type="submit" value="Delete"/>
                     </form>
                 </td>
+                <td class="product-td"><a href="/{{$product->product_id}}">Detail</a>
             </tr>
         @endforeach
     </table>

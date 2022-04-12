@@ -34,7 +34,7 @@ class AuthController extends Controller
         {
             if(strcmp($isExistedUser->password,$password) == 0)
             {
-                Cookie::queue(Cookie::make('logged-in',true));
+                Cookie::queue(Cookie::make('id',$isExistedUser->id));
                 return redirect()->route('product.show');
             }
             return redirect()->back()->with('status','Wrong username/password')->withInput();
@@ -46,8 +46,8 @@ class AuthController extends Controller
 
     public function postRegister($username, $password)
     {
-        $isExistedUser = User::where('username',$username)->first();
-        if($isExistedUser)
+        $user = User::where('username',$username)->first();
+        if($user)
         {
             return redirect()->back()->with('status','Username is existed');
         }
@@ -57,7 +57,8 @@ class AuthController extends Controller
             $newUser->password = $password;
             $newUser->save();
 //            return redirect()->back()->with('status','Register successfully');
-            return redirect('products.show');
+            Cookie::queue(Cookie::make('id',$user->id));
+            return redirect()->route('product.show');
         }
 
     }
