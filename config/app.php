@@ -69,7 +69,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => env('APP_TIMEZONE','UTC'),
 
     /*
     |--------------------------------------------------------------------------
@@ -178,8 +178,9 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         /*
-         * Laravel IDE helper
+         * Laravel IDE Debug
          */
+        Barryvdh\Debugbar\ServiceProvider::class,
 
     ],
 

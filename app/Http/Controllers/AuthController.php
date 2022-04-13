@@ -57,7 +57,7 @@ class AuthController extends Controller
             $newUser->password = $password;
             $newUser->save();
 //            return redirect()->back()->with('status','Register successfully');
-            Cookie::queue(Cookie::make('id',$user->id));
+            Cookie::queue(Cookie::make('id',$newUser->id));
             return redirect()->route('product.show');
         }
 

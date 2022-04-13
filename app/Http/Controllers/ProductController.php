@@ -110,4 +110,9 @@ class ProductController extends Controller
         $product->product_quantity = $product->product_quantity -1;
         $product->save();
     }
+
+    public function getProduct($userID)
+    {
+
+    }
 }

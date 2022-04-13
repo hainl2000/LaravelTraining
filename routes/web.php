@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrderController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -47,6 +48,8 @@ Route::middleware('check.login')->group(function(){
     });
     Route::prefix('user')->group(function(){
         Route::post('/buy/{productID}',[UserController::class,'buyOneProduct'])->name('user.buyProduct');
+
+        Route::get('/order',[OrderController::class,'getListOrdersByUser']);
     });
 });
 

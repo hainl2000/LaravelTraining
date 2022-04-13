@@ -45,7 +45,7 @@ class User extends Authenticatable
 
     public $timestamps =  false;
 
-//    public function products(){
-//        return $this->belongsToMany(Product::class,'orders','id','product_id');
-//    }
+    public function products(){
+        return $this->belongsToMany(Product::class,'orders','user_id','product_id');
+    }
 }

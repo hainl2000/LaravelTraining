@@ -33,7 +33,7 @@
         <h1>Price: </h1>
         <input class="input" type="text" name="productPrice" value="{{$product->product_price}}"><br>
         <h1>Quantity</h1>
-        <input class="input" type="number" name="productQuantity" value="{{$product->product_price}}"><br>
+        <input class="input" type="number" name="productQuantity" value="{{$product->product_quantity}}"><br>
         <h1>Description: </h1>
         <input class="input" type="text" name="productDescription" value="{{$product->product_description}}"><br>
         <input id="submit-add-product-button" type="submit" name="edit-product" value="Edit Product">

@@ -23,7 +23,8 @@ class Product extends Model
     public $timestamps = false;
 
     public function users(){
-        return $this->belongsToMany(User::class,'orders','product_id','id')->withPivot('purchased_quantity');
+        return $this->belongsToMany(User::class,'orders','product_id','user_id')
+            ->withTimestamps();
     }
 
 
