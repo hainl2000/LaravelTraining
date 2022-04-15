@@ -11,15 +11,15 @@
 
 <body>
 <div id="add-product-button">
-    <a href="">Back to main</a>
+    <a href="/">Back to main</a>
 </div>
 <div class = "show-container-1">
     <table class="show-product-container">
         <tr>
             <th class = "product-width">Num</th>
             <th class = "product-width">Product</th>
-            <th class = "product-width">Quantity</th>
-            <th class = "product-width">Price</th>
+            <th class = "product-width">Total</th>
+            <th class = "product-width">Total Price</th>
         </tr>
         @php($i =1)
         @foreach($listOrders->products as $order)
@@ -28,7 +28,7 @@
             <td class="product-td"><a href="/{{$order->product_id}}">{{$order->product_name}}</a></td>
             <td class="product-td">{{$order->quantity}}</td>
             <td class="product-td">{{$order->sum}}</td>
-            <td class="product-td"><a href="">More details</a></td>
+            <td class="product-td"><a href="/user/order/detail/{{$order->product_id}}">More details</a></td>
         </tr>
         @endforeach
     </table>

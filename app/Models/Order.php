@@ -12,7 +12,7 @@ class Order extends Model
     protected $fillable = [
         'user_id',
         'product_id',
-        'purchased_quantity'
+        'price'
     ];
 
     public $timestamps = false;

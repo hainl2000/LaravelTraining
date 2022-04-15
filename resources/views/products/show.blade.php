@@ -18,8 +18,13 @@
 </script>
 <body>
 <div class = "show-container-1">
-    <div id="add-product-button">
-        <a href="/product/create">Add Product</a>
+    <div class="list-navi">
+        <div id="add-product-button">
+            <a href="/product/create">Add Product</a>
+        </div>
+        <div id="add-product-button">
+            <a href="/user/order">List Order</a>
+        </div>
     </div>
     <table class="show-product-container">
         <tr>

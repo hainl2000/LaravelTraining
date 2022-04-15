@@ -111,8 +111,4 @@ class ProductController extends Controller
         $product->save();
     }
 
-    public function getProduct($userID)
-    {
-
-    }
 }

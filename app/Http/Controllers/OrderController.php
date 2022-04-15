@@ -12,15 +12,14 @@ use App\Models\Product;
 
 class OrderController extends Controller
 {
-    //
-    public function store($userID,$productID)
-    {
-        $newOrder = new Order();
-        $newOrder->user_id = $userID;
-        $newOrder->product_id = $productID;
-        $newOrder->save();
-        return;
-    }
+//    public function store($userID,$productID)
+//    {
+//        $newOrder = new Order();
+//        $newOrder->user_id = $userID;
+//        $newOrder->product_id = $productID;
+//        $newOrder->save();
+//        return;
+//    }
 
     public function getListOrdersByUser(Request $request)
     {
@@ -28,23 +27,30 @@ class OrderController extends Controller
         $listOrders = User::with(['products'=>function ($query) use ($userID){
             $query->where('user_id','=',$userID)->select('products.product_id','products.product_name')->distinct();
         }])->get();
-//        echo $listProducts[0];
         foreach($listOrders[0]->products as $product)
         {
-            $product['quantity'] = 2;
-            $product['sum'] = 1000;
-//            $count = User::withCount(['products'=>function($query) use ($userID,$product){
-//                $query->where([
-//                    ['user_id','=',$userID],
-//                    ['product_id','=',$product->product_id],
-//                ]);
-//            }])->get();
+            $totalQuantityEachProduct = User::withCount(['products'=>function($query) use ($userID,$product){
+                $query->where([
+                    ['user_id','=',$userID],
+                    ['orders.product_id','=',$product->product_id],
+                ]);
+            }])->get();
+            $product['quantity'] = $totalQuantityEachProduct[0]->products_count;
+
+
+            $totalPriceEachProduct = $product->users()->where('orders.user_id','=',$userID)->sum('orders.price');
+            $product['sum'] = $totalPriceEachProduct;
+//            echo $product;
+//            die();
         }
-//        echo count($listProducts[0]->products);
-//        print_r($listProducts[0]->products);
-//        die();
-//        echo $listOrders[0];
-//        die();
         return view('users.show-orders',['listOrders'=>$listOrders[0]]);
+    }
+
+    public function getDetailsOfOrder(Request $request, $productID)
+    {
+        $userID = $request->get('id');
+        $product= Product::find($productID);
+        $data = $product->users()->where('orders.user_id','=',$userID)->get();
+        return view('users.details-order',['datas'=>$data,'product'=>$product]);
     }
 }

@@ -25,18 +25,8 @@ Route::post('/auth', [AuthController::class,'auth'])->name('auth');
 
 Route::get('{productID}',[ProductController::class,'show']);
 
-//Route::middleware('check.login')->prefix('product')->group(function(){
-//
-//    Route::get('/create',[ProductController::class,'create']);
-//    Route::post('/addOneProduct',[ProductController::class,'store'])->name('product.addNew');
-//
-//    Route::delete('/delete/{productID}',[ProductController::class,'destroy']);
-//
-//    Route::get('/edit/{productID}',[ProductController::class,'edit']);
-//    Route::put('/edit/{productID}',[ProductController::class,'update'])->name('product.updateOne');
-//});
-
 Route::middleware('check.login')->group(function(){
+
     Route::prefix('product')->group(function(){
         Route::get('/create',[ProductController::class,'create']);
         Route::post('/addOneProduct',[ProductController::class,'store'])->name('product.addNew');
@@ -46,10 +36,15 @@ Route::middleware('check.login')->group(function(){
         Route::get('/edit/{productID}',[ProductController::class,'edit']);
         Route::put('/edit/{productID}',[ProductController::class,'update'])->name('product.updateOne');
     });
+
     Route::prefix('user')->group(function(){
         Route::post('/buy/{productID}',[UserController::class,'buyOneProduct'])->name('user.buyProduct');
+        Route::prefix('/order')->group(function(){
+            Route::get('/',[OrderController::class,'getListOrdersByUser']);
 
-        Route::get('/order',[OrderController::class,'getListOrdersByUser']);
+            Route::get('/detail/{productID}',[OrderController::class,'getDetailsOfOrder']);
+        });
+
     });
 });
 

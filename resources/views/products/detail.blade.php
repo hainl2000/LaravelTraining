@@ -14,6 +14,9 @@
 </script>
 
 <body>
+<div id="add-product-button">
+    <a href="/">Back to main</a>
+</div>
 <div class="wrapper">
     <div class="product-img">
         <img src="{{asset($product->product_image)}}" height="420" width="327">

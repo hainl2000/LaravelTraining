@@ -34,7 +34,7 @@ class UserController extends Controller
                     //create new order
 
                     $product = Product::find($productID);
-                    $product->users()->attach($buyerID);
+                    $product->users()->attach($buyerID,['price'=>$product->product_price]);
 //                    $orderController = new OrderController();
 //                    $orderController->store($buyerID,$productID);
                 });
