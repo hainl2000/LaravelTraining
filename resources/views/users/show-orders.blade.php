@@ -16,18 +16,21 @@
 <div class = "show-container-1">
     <table class="show-product-container">
         <tr>
-            <th class = "product-width">User</th>
+            <th class = "product-width">Num</th>
             <th class = "product-width">Product</th>
             <th class = "product-width">Quantity</th>
             <th class = "product-width">Price</th>
         </tr>
+        @php($i =1)
+        @foreach($listOrders->products as $order)
         <tr>
-            <td class="product-td">User1</td>
-            <td class="product-td"><a href=""></a></td>
-            <td class="product-td"></td>
-            <td class="product-td"></td>
+            <td class="product-td">{{$i++}}</td>
+            <td class="product-td"><a href="/{{$order->product_id}}">{{$order->product_name}}</a></td>
+            <td class="product-td">{{$order->quantity}}</td>
+            <td class="product-td">{{$order->sum}}</td>
             <td class="product-td"><a href="">More details</a></td>
         </tr>
+        @endforeach
     </table>
 </div>
 </body>

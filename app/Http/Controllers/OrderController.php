@@ -25,30 +25,26 @@ class OrderController extends Controller
     public function getListOrdersByUser(Request $request)
     {
         $userID = $request->get('id');
-//        $listDataInOrderPage = array();
-        $listProducts = User::with(['products'=>function ($query) use ($userID){
+        $listOrders = User::with(['products'=>function ($query) use ($userID){
             $query->where('user_id','=',$userID)->select('products.product_id','products.product_name')->distinct();
         }])->get();
-        $array1 = array('item1' => 'item1', 'item2' => 'item2');
-        $array2 = array('item1' => 'item5', 'item2' => 'item6');
-        $array3 = array_merge($array1, $array2);
-        print_r($array3);
-//        $tempArray1 = array('product'=>'11');
-//        $tempArray2 = array('product'=>'22');
-//        $tempArray3 = array('product'=>'33');
-//        $listDataInOrderPage = array_merge($tempArray1,$tempArray2,$tempArray3);
-//        foreach($listProducts[0]->products as $product)
-//        {
-//            $tempArray = array('product'=>$product);
-////            print_r($tempArray);
-//            echo($tempArray['product']);
-////            $tempArray->setAttribute('product', $product);
-////            die($tempArray);
-////            array_push($listDataInOrderPage,'product'=>$product]);
-//        }
-//        print_r($listDataInOrderPage[$tempArray1]);
-        die();
-//        die($listDataInOrderPage);
-//        return view('users.show-orders',['userName'=>$userName,'data'=>$listDataInOrderPage]);
+//        echo $listProducts[0];
+        foreach($listOrders[0]->products as $product)
+        {
+            $product['quantity'] = 2;
+            $product['sum'] = 1000;
+//            $count = User::withCount(['products'=>function($query) use ($userID,$product){
+//                $query->where([
+//                    ['user_id','=',$userID],
+//                    ['product_id','=',$product->product_id],
+//                ]);
+//            }])->get();
+        }
+//        echo count($listProducts[0]->products);
+//        print_r($listProducts[0]->products);
+//        die();
+//        echo $listOrders[0];
+//        die();
+        return view('users.show-orders',['listOrders'=>$listOrders[0]]);
     }
 }
