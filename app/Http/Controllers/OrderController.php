@@ -23,7 +23,8 @@ class OrderController extends Controller
 
     public function getListOrdersByUser(Request $request)
     {
-        $userID = $request->get('id');
+//        $userID = $request->get('id');
+        $userID = \Auth::id();
         $listOrders = User::with(['products'=>function ($query) use ($userID){
             $query->where('user_id','=',$userID)->select('products.product_id','products.product_name')->distinct();
         }])->get();
@@ -48,7 +49,8 @@ class OrderController extends Controller
 
     public function getDetailsOfOrder(Request $request, $productID)
     {
-        $userID = $request->get('id');
+//        $userID = $request->get('id');
+        $userID = \Auth::id();
         $product= Product::find($productID);
         $data = $product->users()->where('orders.user_id','=',$userID)->get();
         return view('users.details-order',['datas'=>$data,'product'=>$product]);

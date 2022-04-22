@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'namename',
+        'username',
         'password',
     ];
 
@@ -44,6 +44,20 @@ class User extends Authenticatable
     ];
 
     public $timestamps =  false;
+
+    public function username(){
+      return 'username';
+    }
+
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }
+
+    public function getEmailAttribute()
+    {
+        return $this->username;
+    }
 
     public function products(){
         return $this->belongsToMany(Product::class,'orders','user_id','product_id');

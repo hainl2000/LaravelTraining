@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\AuthRequest;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Response;
@@ -29,18 +30,25 @@ class AuthController extends Controller
 
     public function postLogin($username,$password)
     {
-        $isExistedUser = User::where('username',$username)->first();
-        if($isExistedUser)
+//        $isExistedUser = User::where('username',$username)->first();
+//        if($isExistedUser)
+//        {
+//            if(strcmp($isExistedUser->password,$password) == 0)
+//            {
+//                Cookie::queue(Cookie::make('id',$isExistedUser->id));
+//                return redirect()->route('product.show');
+//            }
+//            return redirect()->back()->with('status','Wrong username/password')->withInput();
+//        }
+//        else{
+//            return redirect()->back()->with('status','Wrong username/password');
+//        }
+        if(Auth::attempt(array('username' => $username, 'password' => $password)))
         {
-            if(strcmp($isExistedUser->password,$password) == 0)
-            {
-                Cookie::queue(Cookie::make('id',$isExistedUser->id));
-                return redirect()->route('product.show');
-            }
-            return redirect()->back()->with('status','Wrong username/password')->withInput();
+            return redirect()->route('product.show');
         }
         else{
-            return redirect()->back()->with('status','Wrong username/password');
+            return redirect()->back()->with('status','Wrong username/password')->withInput();
         }
     }
 
@@ -56,9 +64,12 @@ class AuthController extends Controller
             $newUser->username = $username;
             $newUser->password = $password;
             $newUser->save();
-//            return redirect()->back()->with('status','Register successfully');
-            Cookie::queue(Cookie::make('id',$newUser->id));
-            return redirect()->route('product.show');
+            event(new Registered($newUser));
+            auth()->login($newUser);
+
+            return redirect('/email/verify');
+//            Cookie::queue(Cookie::make('id',$newUser->id));
+//            return redirect()->route('product.show');
         }
 
     }

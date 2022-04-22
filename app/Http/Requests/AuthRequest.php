@@ -25,7 +25,7 @@ class AuthRequest extends FormRequest
     {
         return [
             //
-            'username' => ['required'],
+            'username' => ['required','email:rfc,dns'],
             'password' => ['required']
         ];
     }
